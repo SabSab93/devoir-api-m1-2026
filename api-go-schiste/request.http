@@ -1,0 +1,47 @@
+### GET qcms
+GET http://localhost:3022/api/schistes
+
+
+### GET par id
+GET http://localhost:3022/api/schistes/1
+
+###Creer un schistes
+POST http://localhost:3022/api/schistes
+Content-Type: application/json
+
+{
+  "data": {
+    "nom": "test",
+    "origine": "test",
+    "profondeur": 12,
+    "description": "test du post"
+  }
+}
+
+###Modifier un schistes totalement
+PUT http://localhost:3022/api/schistes/1
+Content-Type: application/json
+
+{
+  "data": {
+    "nom": "test",
+    "origine": "test",
+    "profondeur": 12,
+    "description": "test du post"
+  }
+}
+
+###Modifier un schistes partiellement
+PATCH http://localhost:3022/api/schistes/1
+Content-Type: application/json
+
+{
+  "data": {
+    "nom": "test",
+
+  }
+}
+
+###Supprimer un schistes 
+DELETE http://localhost:3022/api/schistes/1
+Content-Type: application/json
