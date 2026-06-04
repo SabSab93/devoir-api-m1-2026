@@ -72,29 +72,14 @@ DELETE http://localhost:3000/api/schistes/4
 
 
 
-### Register
-POST http://localhost:3000/api/auth/local/register
-Content-Type: application/json
-
-{
-  "data": {
-    "pseudo": "thomaslaforge@gmail.com",
-    "motdpasse": "admin1234"
-  }
-}
-
-
-
-
 ###voir liste voiture publique
 GET http://localhost:3000/api/voitures/get-all
 Content-Type: application/json
 
 
 ###voir liste voiture publique
-GET http://localhost:3000/api/voitures/get-this-one
+GET http://localhost:3000/api/voitures/get-this-one?id=1
 Content-Type: application/json
-
 
 
 
