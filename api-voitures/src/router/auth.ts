@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import argon2 from "argon2";
 import "dotenv/config";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
@@ -23,10 +23,7 @@ authRouter.post("/local/register", async (req, res) => {
     if (userWithpseudo) {
       res.status(400).json("Pseudo et mot de passe obligatoires invalide");
     } else {
-      const hashedmotdpasse = await bcrypt.hash(
-        motdepasse,
-        parseInt(process.env.SALT_ROUNDS!),
-      );
+      const hashedmotdpasse = await argon2.hash(motdepasse);
 
       const newUser = await prisma.user.create({
         data: {
@@ -61,7 +58,7 @@ authRouter.post("/", async (req, res) => {
       });
     }
 
-    const ismotdpasseCorrect = await bcrypt.compare(
+    const ismotdpasseCorrect = await argon2.verify(
       userWithpseudo.motdepasse,
       motdepasse,
     );
