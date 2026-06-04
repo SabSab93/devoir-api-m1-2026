@@ -23,24 +23,13 @@ PUT http://localhost:3022/api/schistes/1
 Content-Type: application/json
 
 {
-  "data": {
-    "nom": "test",
+    "nom": "test2",
     "origine": "test",
     "profondeur": 12,
     "description": "test du post"
-  }
+  
 }
 
-###Modifier un schistes partiellement
-PATCH http://localhost:3022/api/schistes/1
-Content-Type: application/json
-
-{
-  "data": {
-    "nom": "test",
-
-  }
-}
 
 ###Supprimer un schistes 
 DELETE http://localhost:3022/api/schistes/1
