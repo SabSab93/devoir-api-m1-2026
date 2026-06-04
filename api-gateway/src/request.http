@@ -1,0 +1,136 @@
+### Gateway health
+GET http://localhost:3000
+
+### schistes via gateway GET ALL
+GET http://localhost:3000/api/schistes
+
+### schistes via gateway POST ALL
+POST http://localhost:3000/api/schistes
+Content-Type: application/json
+
+ {
+    "name": "test gateway",
+    "origine": "test",
+    "profondeur": 10,
+    "origine": "test"
+    
+  }
+
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHNldWRvIjoidGhvbWFzbGFmb3JnZUBnbWFpbC5jb20iLCJtb3RkcGFzc2UiOiIkMmIkMTAkVkNCeURSY0lyM1hyVTVWeS96anhvZXFST1JIU2pqa1dyMm9uNDAudjlRSUpiTjlmR1hxcDYiLCJpYXQiOjE3ODA1MjYwODZ9.hVMt3rzu9pR-sRSbTcMm6owWqn_7zDDcC7586kGz9UM
+
+
+
+### voitures via gateway GET ALL
+GET http://localhost:3000/api/voitures/get-all
+
+### voitures via gateway GET ID
+GET http://localhost:3000/api/voitures/get-this-one?id=1
+
+
+
+
+### schistes via gateway DELETE 
+DELETE http://localhost:3000/api/voitures/delete?id=1
+
+### Create voiture (body wrapped in data)
+POST http://localhost:1992/voitures/create
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "data": {
+    "name": "Peugeot 208",
+    "price": 15000
+  }
+}
+
+
+### Gateway health
+GET http://localhost:3000
+
+### schistes via gateway GET ALL
+GET http://localhost:3000/api/schistes
+
+### schistes via gateway POST ALL
+POST http://localhost:3000/api/schistes
+Content-Type: application/json
+
+ {
+    "name": "test gateway",
+    "origine": "test",
+    "profondeur": 10,
+    "origine": "test"
+    
+  }
+
+### schistes via gateway GET ID
+GET http://localhost:3000/api/schistes/4
+
+### schistes via gateway DELETE 
+DELETE http://localhost:3000/api/schistes/4
+
+
+
+### Register
+POST http://localhost:3000/api/auth/local/register
+Content-Type: application/json
+
+{
+  "data": {
+    "pseudo": "thomaslaforge@gmail.com",
+    "motdpasse": "admin1234"
+  }
+}
+
+
+
+
+###voir liste voiture publique
+GET http://localhost:3000/api/voitures/get-all
+Content-Type: application/json
+
+
+###voir liste voiture publique
+GET http://localhost:3000/api/voitures/get-this-one
+Content-Type: application/json
+
+
+
+
+### Register
+POST http://localhost:3000/api/auth/local/register
+Content-Type: application/json
+
+{
+  "data": {
+    "firstname": "lili",
+    "email": "lili-login@test.fr",
+    "password": "lolo"
+  }
+}
+
+### Login
+POST http://localhost:3000/api/auth/local/
+Content-Type: application/json
+
+{
+  "data": {
+    "email": "lili-login@test.fr",
+    "password": "lolo"
+  }
+}
+
+###
+GET http://localhost:3000/api/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJtYXgtbG9naW5AdGVzdC5mciIsImlhdCI6MTc4MDQwOTg5MCwiZXhwIjoxNzgwNDE3MDkwfQ.r44XRiSqUONhe7e5P0zTBDzet76l31vUVFrcvjl7p6I
+
+
+
+
+###Soumettre une reponse
+GET  http://localhost:3000/api/qcms/1/result
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJtYXgtbG9naW5AdGVzdC5mciIsImlhdCI6MTc4MDQwOTg5MCwiZXhwIjoxNzgwNDE3MDkwfQ.r44XRiSqUONhe7e5P0zTBDzet76l31vUVFrcvjl7p6I
+

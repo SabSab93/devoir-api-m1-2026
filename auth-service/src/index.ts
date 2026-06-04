@@ -18,7 +18,7 @@ apiRouter.get("/", (req, res) => {
   res.json({ status: "ok", service: "auth-service" });
 });
 
-apiRouter.use("/auth", authRouter);
+apiRouter.use("/auth/local", authRouter);
 apiRouter.use("/users", userRouter);
 
 app.use("", apiRouter);
