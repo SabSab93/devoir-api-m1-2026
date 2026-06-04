@@ -1,43 +1,46 @@
 import "dotenv/config";
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 export interface DecodeToken {
-    id: number;
-    username: string;
-    email: string;
-    iat: number;
-    exp: number;
+  id: number;
+  username: string;
+  email: string;
+  iat: number;
+  exp: number;
 }
 
-export async function checkToken(req: Request, res: Response, next: NextFunction) {
-    const fullToken = req.headers.authorization;
-    if (!fullToken) {
-        res.status(401).send("No token provided");
-    }
-    else {
+export async function checkToken(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const basicAuth = req.headers.authorization;
 
-        const [typeToken, token] = fullToken.split(" ");
-        if(typeToken !== "Bearer"){
-            res.status(401).send("Invalid token type");
-        }
-        else {
-            try {
-                console.log('token', token)
-                const decoded = jwt.verify(token, process.env.JWT_SECRET!)
-                console.log('decoded', decoded);
-                if (decoded) {
-                    req.token = token;
-                    next();
-                }
-                else {
-                    res.status(401).send("Invalid token");
-                }
-            }
-            catch(e){
-                console.log('invalid token on verify', e)
-                res.status(401).send("Invalid token on verify");
-            }
-        }
+  if (!basicAuth) {
+    return res.status(401).send("No authorization provided");
+  }
+
+  const [typeToken, token] = basicAuth.split(" ");
+
+  if (typeToken !== "Basic") {
+    return res.status(401).send("Invalid auth type");
+  }
+
+  try {
+    const decoded = Buffer.from(token, "base64").toString("utf-8");
+
+    const [pseudo, password] = decoded.split(":");
+
+    if (!pseudo || !password) {
+      return res.status(401).send("Invalid credentials");
     }
+
+    (req as any).username = pseudo;
+    (req as any).email = password;
+
+    next();
+  } catch (e) {
+    return res.status(401).send("Invalid basic token");
+  }
 }
