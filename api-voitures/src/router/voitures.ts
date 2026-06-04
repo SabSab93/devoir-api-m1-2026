@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
-import { checkToken } from "../middlewares/checkToken";
 
 const prisma = new PrismaClient();
 
@@ -37,7 +36,7 @@ voituresRouter.get("/:id", async (req, res) => {
   }
 });
 
-voituresRouter.post("/", checkToken, async (req, res) => {
+voituresRouter.post("/", async (req, res) => {
   try {
     const { name, price } = req.body.data;
 
@@ -60,7 +59,7 @@ voituresRouter.post("/", checkToken, async (req, res) => {
   }
 });
 
-voituresRouter.put("/:id", checkToken, async (req, res) => {
+voituresRouter.put("/:id", async (req, res) => {
   try {
     const voitureId = parseInt(req.params.id);
 
@@ -98,7 +97,7 @@ voituresRouter.put("/:id", checkToken, async (req, res) => {
   }
 });
 
-voituresRouter.delete("/:id", checkToken, async (req, res) => {
+voituresRouter.delete("/:id", async (req, res) => {
   try {
     const voitureId = parseInt(req.params.id);
 
