@@ -9,52 +9,77 @@ const prisma = new PrismaClient();
 export const authRouter = Router();
 
 authRouter.post("/local/register", async (req, res) => {
-  const { motdepasse, pseudo } = req.body.data;
+  try {
+    const { pseudo, motdepasse } = req.body.data;
 
-  if (!motdepasse || !pseudo) {
-    return res.status(400).json({
-      message: "Pseudo et mot de passe obligatoires",
-    });
-  }
+    if (!pseudo || !motdepasse) {
+      return res.status(400).json({
+        message: "Pseudo et mot de passe obligatoires",
+      });
+    }
 
-  const userWithpseudo = await prisma.user.findUnique({ where: { pseudo } });
+    const userWithpseudo = await prisma.user.findUnique({ where: { pseudo } });
 
-  if (userWithpseudo) {
-    res.status(200).json("Pseudo et mot de passe obligatoires invalide");
-  } else {
-    const hashedmotdpasse = await bcrypt.hash(
-      motdepasse,
-      parseInt(process.env.SALT_ROUNDS!),
-    );
+    if (userWithpseudo) {
+      res.status(400).json("Pseudo et mot de passe obligatoires invalide");
+    } else {
+      const hashedmotdpasse = await bcrypt.hash(
+        motdepasse,
+        parseInt(process.env.SALT_ROUNDS!),
+      );
 
-    const newUser = await prisma.user.create({
-      data: {
-        pseudo,
-        motdepasse: hashedmotdpasse,
-      },
-    });
-    res.status(201).json(newUser);
+      const newUser = await prisma.user.create({
+        data: {
+          pseudo,
+          motdepasse: hashedmotdpasse,
+        },
+      });
+      res.status(201).json({
+        message: "Utilisateur créé",
+        newUser,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur" });
   }
 });
 
-authRouter.post("/local", async (req, res) => {
-  const { pseudo, motdpasse } = req.body;
-  const userWithpseudo = await prisma.user.findFirst({ where: { pseudo } });
-  if (!userWithpseudo) {
-    res.status(400).json("pseudo is incorrect");
-  } else {
-    const ismotdpasseCorrect = await bcrypt.compare(
-      motdpasse,
-      userWithpseudo.motdpasse,
-    );
-    if (ismotdpasseCorrect) {
-      const token = jwt.sign(userWithpseudo, process.env.JWT_SECRET!);
-      res.json({
-        token,
-        ...userWithpseudo,
+authRouter.post("/", async (req, res) => {
+  try {
+    const { pseudo, motdepasse } = req.body.data;
+
+    if (!pseudo || !motdepasse) {
+      return res.status(400).json({
+        message: "Pseudo et mot de passe obligatoires",
       });
-    } else {
-      res.status(400).json("motdpasse is incorrect");
     }
+
+    const userWithpseudo = await prisma.user.findUnique({ where: { pseudo } });
+    if (!userWithpseudo) {
+      return res.status(401).json({
+        message: "Identifiantsou mtp incorrects",
+      });
+    }
+
+    const ismotdpasseCorrect = await bcrypt.compare(
+      userWithpseudo.motdepasse,
+      motdepasse,
+    );
+    if (!ismotdpasseCorrect) {
+      return res.status(401).json({
+        message: "Identifiants ou mtp incorrects",
+      });
+    }
+
+    const token = jwt.sign(userWithpseudo, process.env.JWT_SECRET!, {
+      expiresIn: "2h",
+    });
+
+    res.status(200).json({
+      message: "Connexion réussie",
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur" });
   }
 });
