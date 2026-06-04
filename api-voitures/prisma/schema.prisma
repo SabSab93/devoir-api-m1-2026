@@ -17,7 +17,7 @@ model Voiture {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  pseudo    String @unique
-  motdpasse String
+  id         Int    @id @default(autoincrement())
+  pseudo     String @unique
+  motdepasse String
 }
