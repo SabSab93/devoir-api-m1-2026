@@ -6,56 +6,120 @@ const prisma = new PrismaClient();
 
 export const voituresRouter = Router();
 
-voituresRouter.get("/get-all", async (req, res) => {
+voituresRouter.get("/", async (req, res) => {
+  try {
     const voitures = await prisma.voiture.findMany();
     res.json(voitures);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur" });
+  }
 });
 
-voituresRouter.get("/get-this-one", async (req, res) => {
-    const id = parseInt(req.query.id as string);
-    const voiture = await prisma.voiture.findFirst({ where: { id: id } });
+voituresRouter.get("/:id", async (req, res) => {
+  try {
+    const voitureId = parseInt(req.params.id);
+
+    if (isNaN(voitureId)) {
+      return res.status(400).json({ message: "Invalid voiture ID" });
+    }
+
+    const voiture = await prisma.voiture.findUnique({
+      where: { id: voitureId },
+    });
+
+    if (!voiture) {
+      return res.status(404).json({ message: "Voiture not found" });
+    }
+
     res.json(voiture);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur" });
+  }
 });
 
-voituresRouter.post("/create", checkToken, async (req, res) => {
+voituresRouter.post("/", checkToken, async (req, res) => {
+  try {
     const { name, price } = req.body.data;
-    if(!name || !price){
-        res.status(400).send("Missing required information");
+
+    if (!name || !price) {
+      return res.status(400).json({
+        message: "Name and price are required",
+      });
     }
-    else {
-        const newVoiture = await prisma.voiture.create({
-            data: {
-                name, 
-                price
-            }
-        });
-        res.json(newVoiture);
-    }
+
+    const voiture = await prisma.voiture.create({
+      data: {
+        name,
+        price,
+      },
+    });
+
+    res.status(201).json({ message: "Creation voiture", voiture });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
-voituresRouter.patch("/update/:id", checkToken, async (req, res) => {
-    const id = parseInt(req.params.id);
+voituresRouter.put("/:id", checkToken, async (req, res) => {
+  try {
+    const voitureId = parseInt(req.params.id);
+
+    if (isNaN(voitureId)) {
+      return res.status(400).json({ message: "Invalid voiture ID" });
+    }
+
+    const voiture = await prisma.voiture.findUnique({
+      where: { id: voitureId },
+    });
+
+    if (!voiture) {
+      return res.status(404).json({ message: "Voiture not found" });
+    }
+
     const { name, price } = req.body.data;
-    const actual = await prisma.voiture.findFirst({ where: { id: id } });
-    if (actual) {
-        const updatedVoiture = await prisma.voiture.update({
-            where: { id: id },
-            data: {
-                name: name || actual.name,
-                price: price || actual.price
-            }
-        });
-        res.json(updatedVoiture);
+
+    if (!name || !price) {
+      return res.status(400).json({
+        message: "Name and price are required",
+      });
     }
+
+    const updatedvoiture = await prisma.voiture.update({
+      where: { id: voitureId },
+      data: {
+        name,
+        price,
+      },
+    });
+
+    res.status(200).json(updatedvoiture);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
-voituresRouter.delete("/delete", checkToken, async (req, res) => {
-    const actual = await prisma.voiture.findFirst({ where: { id: parseInt(req.query.id as string) } });
-    if (actual) {
-        await prisma.voiture.delete({ where: { id: parseInt(req.query.id as string) } });
-        res.json(actual);
+voituresRouter.delete("/:id", checkToken, async (req, res) => {
+  try {
+    const voitureId = parseInt(req.params.id);
+
+    if (isNaN(voitureId)) {
+      return res.status(400).json({ message: "Invalid voiture ID" });
     }
-    else {
-        res.status(404).send("Voiture not found");
+
+    const voiture = await prisma.voiture.findUnique({
+      where: { id: voitureId },
+    });
+
+    if (!voiture) {
+      return res.status(404).json({ message: "Voiture not found" });
     }
+
+    await prisma.voiture.delete({
+      where: { id: voitureId },
+    });
+
+    res.json({ message: "Voiture deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur" });
+  }
 });
