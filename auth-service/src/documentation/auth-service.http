@@ -1,0 +1,11 @@
+### Register
+POST http://localhost:3002/auth/local/register
+Content-Type: application/json
+
+{
+  "data": {
+    "firstname": "Valerie",
+    "email": "valerie-login@test.fr",
+    "password": "koko"
+  }
+}
