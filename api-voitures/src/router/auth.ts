@@ -22,20 +22,19 @@ authRouter.post("/local/register", async (req, res) => {
 
     if (userWithpseudo) {
       res.status(400).json("Pseudo et mot de passe obligatoires invalide");
-    } else {
-      const hashedmotdpasse = await argon2.hash(motdepasse);
-
-      const newUser = await prisma.user.create({
-        data: {
-          pseudo,
-          motdepasse: hashedmotdpasse,
-        },
-      });
-      res.status(201).json({
-        message: "Utilisateur créé",
-        newUser,
-      });
     }
+    const hashedmotdpasse = await argon2.hash(motdepasse);
+
+    const newUser = await prisma.user.create({
+      data: {
+        pseudo,
+        motdepasse: hashedmotdpasse,
+      },
+    });
+    res.status(201).json({
+      message: "Utilisateur créé",
+      newUser,
+    });
   } catch (error) {
     res.status(500).json({ message: "Erreur serveur" });
   }
