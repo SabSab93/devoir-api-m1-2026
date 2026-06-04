@@ -21,7 +21,7 @@ Pour éviter qu'une erreur sur une tâche ne bloque tout votre TP, vous devez is
 
 ## Tâche 1 - Utilisation d'une API (4 points)
 
-Vous devez lancer et utiliser l'API de Schiste dans le dossier `api-go-schiste`.
+Vous devez lancer et utiliser l'API qui permet du CRUD sur la ressource schiste (des cailloux quoi ^^) dans le dossier `api-go-schiste`.
 Documentez les routes de l'API que vous avez utilisées dans le fichier `api-go-schiste/requests.http`
 C'est un CRUD classique sans authentification ^^
 
@@ -31,7 +31,7 @@ Auditez l'API de voitures dans le dossier `api-voitures` et réalisez les améli
 
 ATTENTION : Chaque modification est un commit séparé, avec un message de commit clair et précis !
 
-Dans cette tâche j'aimerai que toutes les routes soient protégées !
+Dans cette tâche j'aimerai que toutes les routes de la ressource voitures soient protégées !
 
 Mettez bien à jour le fichier `requests.http` pour documenter les routes que vous avez créées ou modifiées.
 
