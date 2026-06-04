@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:3022
+
+### GET all schistes
+GET {{baseUrl}}/api/schistes
