@@ -21,16 +21,16 @@ Content-Type: application/json
 
 ### Get all voitures
 GET http://localhost:1992/voitures/get-all
-Authorization: Bearer {{token}}
+Authorization: Basic {{token}}
 
 ### Get one voiture (by query param)
 GET http://localhost:1992/voitures/get-this-one?id=1
-Authorization: Bearer {{token}}
+Authorization: Basic {{token}}
 
 ### Create voiture (body wrapped in data)
 POST http://localhost:1992/voitures/create
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Basic {{token}}
 
 {
   "data": {
@@ -42,7 +42,7 @@ Authorization: Bearer {{token}}
 ### Update voiture (PATCH, id in path, body wrapped in data)
 PATCH http://localhost:1992/voitures/update/1
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Basic {{token}}
 
 {
   "data": {
@@ -53,4 +53,4 @@ Authorization: Bearer {{token}}
 
 ### Delete voiture (by query param)
 DELETE http://localhost:1992/voitures/delete?id=1
-Authorization: Bearer {{token}}
+Authorization: Basic {{token}}
