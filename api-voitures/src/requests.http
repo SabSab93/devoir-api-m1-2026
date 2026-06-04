@@ -1,5 +1,5 @@
 # create a variable for token
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicHNldWRvIjoidGhvbWFzbGFmb3JnZUBnbWFpbC5jb20iLCJtb3RkcGFzc2UiOiIkMmIkMTAkVkNCeURSY0lyM1hyVTVWeS96anhvZXFST1JIU2pqa1dyMm9uNDAudjlRSUpiTjlmR1hxcDYiLCJpYXQiOjE3ODA1MjYwODZ9.hVMt3rzu9pR-sRSbTcMm6owWqn_7zDDcC7586kGz9UM
+@token = thomaslaforge@gmail.com:admin1234
 
 ### Register
 POST http://localhost:1992/auth/local/register
